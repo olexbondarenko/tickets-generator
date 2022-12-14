@@ -46,8 +46,9 @@ export default {
       const dataTime = ref(111111);
       const prizeName = ref('');
       const prizeType = ref(1);
-      const winnersCount = ref(0);
-      const ticketsCount = ref(0);
+      const userId = ref(0);
+      const winnersCount = ref();
+      const ticketsCount = ref();
       const winnersTable = ref([]);
       const ticketsData = ref([]);
 
@@ -60,27 +61,47 @@ export default {
         return Math.floor(Math.random() * (max - min) + min);
       }
 
+      const generateUniqueTicket = () => {
+
+          while(unref(ticketsData).length < unref(ticketsCount)){
+            let value = getRandomInt(10000000, 99999999);
+            if(unref(ticketsData).indexOf(value) === -1) {
+              return value;
+            }
+          } 
+      }
+
+      const generateUniqueWinTicket = () => {
+        let i = 0;
+        while(i < unref(winnersCount)){
+          let value = getRandomInt(10000000, 99999999);
+
+          if(unref(winnersTable).find(item => item.TI === value)?.TI !== value) {
+            return value;
+          }
+        } 
+        i++;
+      }
+
       const generateWinTable = () => {
         for(let i = 0; i < unref(winnersCount); i++) {
           winnersTable.value.push({
             "DT": unref(dataTime),
             "P": unref(prizeName),
             "T": unref(prizeType),
-            "TI": getRandomInt(10000000, 99999999),
-            "UI": 1
+            "TI": generateUniqueWinTicket(),
+            "UI": userId.value += 1
           })
         }
-
         prizeType.value += 1;
       };
 
       const generateTickets = () => {
         for(let i = 0; i < unref(ticketsCount); i++) {
-          ticketsData.value.push(getRandomInt(10000000, 99999999))
+            ticketsData.value.push(generateUniqueTicket());
         }
       }
       
-        
       const copyToClipboard = (value) => {
         isDisabledCopy.value = true;
         let copiedValue = JSON.stringify(unref(value), null, 2);
@@ -91,7 +112,6 @@ export default {
         }, (err) => {
           isDisabledCopy.value = false;
           message.value =  `Could not copy text: ', ${err}`;
-
         });
 
         setTimeout(() => {

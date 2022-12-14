@@ -10,5 +10,5 @@ cd dist
 git init
 git add -A
 git commit -m 'deploy'
-git push -f git@github.com:olexbondarenko/chest.git master:gh-pages
+git push -f git@github.com:olexbondarenko/tickets-generator.git master:gh-pages
 cd -
