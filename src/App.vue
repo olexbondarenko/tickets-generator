@@ -64,7 +64,7 @@ export default {
       const generateUniqueTicket = () => {
 
           while(unref(ticketsData).length < unref(ticketsCount)){
-            let value = getRandomInt(10000000, 99999999);
+            let value = getRandomInt(100000000, 999999999);
             if(unref(ticketsData).indexOf(value) === -1) {
               return value;
             }
@@ -74,7 +74,7 @@ export default {
       const generateUniqueWinTicket = () => {
         let i = 0;
         while(i < unref(winnersCount)){
-          let value = getRandomInt(10000000, 99999999);
+          let value = getRandomInt(100000000, 999999999);
 
           if(unref(winnersTable).find(item => item.TI === value)?.TI !== value) {
             return value;
